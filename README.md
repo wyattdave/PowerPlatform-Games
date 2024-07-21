@@ -8,7 +8,7 @@ Anyone can submit a game to this repo, it just requires the following:
 - Include A Readme.md file
 - Optional Screenshot
 
-# To submit please:
+## To submit please:
 
 - Clone this repo
 - Create a folder for your game in the relevent technology
@@ -33,7 +33,6 @@ Ownership always remains with the solution owner, you can ask for the solution t
 
 ## Liability
 This Repo and the maintainers are not liabel for any impacts caused by solutions on this repo.
-
 
 ## Future Plans
 If we get enough submissions we will look at spinning up a standalone site showcasing all of the games
