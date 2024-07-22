@@ -1,33 +1,33 @@
-# Game Name
+# Flappy App
 
 ## Description
-Short description of game
+Flappy Bird, the sideways scrolling game
 
 ## Author
-Game Developer
-Contact (Github name, Linkedin, non-personal email address)
+WyattDave
+[https://github.com/wyattdave](https://github.com/wyattdave)
+[https://www.linkedin.com/in/wyattdave/](https://www.linkedin.com/in/wyattdave/)
 
 ## Related Links
-Blog, article, youtube, site url
+[https://dev.to/wyattdave/flappy-app-why-and-how-to-make-a-game-in-power-apps-9k2](https://dev.to/wyattdave/flappy-app-why-and-how-to-make-a-game-in-power-apps-9k2)
 
 ## Category
-See categories.md
+Arcade
 
 ## Premium
-Yes/No
+No
 
 ## Depenedencies
-Connections
-Files - Used for
+None
 
 ## Install Guide
-Short guide on how to install the solution (order, dependency setup, etc)
+Import solution
 
 ## Solution Name
-soltionName.zip
+flappyapp_1_0_0_1.zip
 
 ## Screenshot
-screenshot.png or blank if none
+flappy app.png
 
 ## User Guide
-Short guide on how to use the game or url to guide
+Tap screen to flap the app so it moves up. Avoid the pipes to progress to next level

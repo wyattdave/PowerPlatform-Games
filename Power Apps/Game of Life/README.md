@@ -1,33 +1,40 @@
-# Game Name
+# Conways Game of Life
 
 ## Description
-Short description of game
+Turing complete cell growing game, Setup your board and start and see patterns that grow
 
 ## Author
-Game Developer
-Contact (Github name, Linkedin, non-personal email address)
+WyattDave
+[https://github.com/wyattdave](https://github.com/wyattdave)
+[https://www.linkedin.com/in/wyattdave/](https://www.linkedin.com/in/wyattdave/)
 
 ## Related Links
-Blog, article, youtube, site url
+[https://dev.to/wyattdave/creating-a-turing-complete-game-in-power-apps-p56](https://dev.to/wyattdave/creating-a-turing-complete-game-in-power-apps-p56)
+[https://playgameoflife.com/](https://playgameoflife.com/)
 
 ## Category
-See categories.md
+Simulation
 
 ## Premium
-Yes/No
+No
 
 ## Depenedencies
-Connections
-Files - Used for
+None
 
 ## Install Guide
-Short guide on how to install the solution (order, dependency setup, etc)
+Import solution
 
 ## Solution Name
-soltionName.zip
+gameoflife_1_0_0_2.zip
 
 ## Screenshot
-screenshot.png or blank if none
+game of life.png
 
 ## User Guide
-Short guide on how to use the game or url to guide
+Configure settings, click squares to make them alive, click start.
+For a space that is populated:
+Rules
+- Each cell with one or no neighbors dies, as if by solitude.
+- Each cell with four or more neighbors dies, as if by overpopulation.
+- Each cell with two or three neighbors survives.
+- Each cell with three neighbors becomes populated.

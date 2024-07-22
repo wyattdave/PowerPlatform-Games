@@ -10,7 +10,7 @@ WyattDave
 
 
 ## Related Links
-Blog, article, youtube, site url
+[https://dev.to/wyattdave/creating-snake-game-in-power-apps-4n9](https://dev.to/wyattdave/creating-snake-game-in-power-apps-4n9)
 
 ## Category
 Arcade

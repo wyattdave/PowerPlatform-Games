@@ -1,33 +1,33 @@
-# Game Name
+# 404 Power App Game Not Found
 
 ## Description
-Short description of game
+The Chrome offline Dinasour jumping game
 
 ## Author
-Game Developer
-Contact (Github name, Linkedin, non-personal email address)
+WyattDave
+[https://github.com/wyattdave](https://github.com/wyattdave)
+[https://www.linkedin.com/in/wyattdave/](https://www.linkedin.com/in/wyattdave/)
 
 ## Related Links
-Blog, article, youtube, site url
+[https://dev.to/wyattdave/404-power-app-game-not-found-3iik](https://dev.to/wyattdave/404-power-app-game-not-found-3iik)
 
 ## Category
-See categories.md
+Arcade
 
 ## Premium
-Yes/No
+No
 
 ## Depenedencies
-Connections
-Files - Used for
+None
 
 ## Install Guide
-Short guide on how to install the solution (order, dependency setup, etc)
+Import solution
 
 ## Solution Name
-soltionName.zip
+404AppNotFound_1_0_0_1.zip
 
 ## Screenshot
-screenshot.png or blank if none
+404 game.png
 
 ## User Guide
-Short guide on how to use the game or url to guide
+Tap the large space bar on the screen to jump the dinosaur, avoid the obsticles to progress to next levels.
