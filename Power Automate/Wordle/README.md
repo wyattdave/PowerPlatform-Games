@@ -1,33 +1,41 @@
-# Game Name
+# Wordle
 
 ## Description
-Short description of game
+Word puzzle game where you have 6 guesses to guess the 5 letter word. Each guess shows if the letter is used and if it is in the right position
 
 ## Author
-Game Developer
-Contact (Github name, Linkedin, non-personal email address)
+WyattDave
+[https://github.com/wyattdave](https://github.com/wyattdave)
+[https://www.linkedin.com/in/wyattdave/](https://www.linkedin.com/in/wyattdave/)
 
 ## Related Links
 Blog, article, youtube, site url
 
 ## Category
-See categories.md
+Puzzle
 
 ## Premium
-Yes/No
+Yes
 
 ## Depenedencies
-Connections
-Files - Used for
+SharePoint
+Dataverse
+Files
+- power platform words.txt - words used to select random word
+- powordle.html - web page of the game
+- wordle.js - duplicate of javascript used in powordle.html
 
 ## Install Guide
-Short guide on how to install the solution (order, dependency setup, etc)
+Upload files to SharePoint Shared Documents folder
 
 ## Solution Name
-soltionName.zip
+PowerWordle_1_0_0_2.zip
 
 ## Screenshot
-screenshot.png or blank if none
+wordle.png 
 
 ## User Guide
-Short guide on how to use the game or url to guide
+Guess the 5 letter word. For each guess any letter not used will remain white, any used but in the wrong location willturn yellow, and any in the correct location will turn green.
+The guess has to be a valid word.
+Each day a new word will be used. The words are based on the Power platform anc can be seen bu clicking the list button.
+If you run out of guesses you lose the game and cant try again until the next day.
