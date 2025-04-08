@@ -6,4 +6,5 @@
 | Wordle        | Power Automate | Puzzle         |
 | Game of Life  | Power App      | Simulation     |
 | Snake         | Power App      | Arcade         |
+| Bope It       | Power App      | Unclassified   |
 |               |                |                |
