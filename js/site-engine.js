@@ -8,9 +8,9 @@ const SiteEngine = (() => {
     let _games = null;
     let _categories = null;
 
-    // ── paths (relative from /site/) ──
-    const GAMELIST_PATH = '../GAMELIST.md';
-    const CATEGORIES_PATH = '../CATEGORIES.md';
+    // ── paths ──
+    const GAMELIST_PATH = 'GAMELIST.md';
+    const CATEGORIES_PATH = 'CATEGORIES.md';
 
     // ── helpers ──
 
@@ -131,7 +131,7 @@ const SiteEngine = (() => {
 
         // Load each game's README in parallel
         const readmePromises = games.map(async (game) => {
-            const readmePath = `../${game.folder}/README.md`;
+            const readmePath = `${game.folder}/README.md`;
             const md = await fetchText(readmePath);
             game.readme = parseReadme(md);
             // Derive slug for linking
@@ -214,7 +214,7 @@ const SiteEngine = (() => {
     function getScreenshotUrl(game) {
         if (!game.readme || !game.readme.screenshot) return '';
         const screenshot = game.readme.screenshot.trim();
-        return `../${game.folder}/${screenshot}`;
+        return `${game.folder}/${screenshot}`;
     }
 
     /**
@@ -224,7 +224,7 @@ const SiteEngine = (() => {
         console.log(game);
         if (!game.readme || !game.readme.solution_name) return '';
         const solution = game.readme.solution_name.trim();
-        return `../${game.folder}/${solution}`;
+        return `${game.folder}/${solution}`;
     }
 
     /**
