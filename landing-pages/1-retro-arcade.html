@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Platform Games - Retro Arcade</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0a0a0a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 120px, #fff, transparent),
+                radial-gradient(1px 1px at 230px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 300px 150px, #fff, transparent),
+                radial-gradient(1px 1px at 400px 60px, #fff, transparent),
+                radial-gradient(2px 2px at 500px 200px, #fff, transparent);
+            background-size: 550px 250px;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 40px #ff00ff,
+                0 0 80px #ff00ff;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+            to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 80px #00ffff; }
+        }
+        
+        .tagline {
+            font-size: 0.7rem;
+            color: #00ff00;
+            margin-top: 20px;
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        
+        .insert-coin {
+            font-size: 0.9rem;
+            color: #ffff00;
+            margin-top: 40px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .game-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 4px solid #00ff00;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            image-rendering: pixelated;
+        }
+        
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .game-card:hover::before {
+            opacity: 1;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+        
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .game-title {
+            color: #fff;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-category {
+            color: #ff00ff;
+            font-size: 0.5rem;
+            padding: 5px 10px;
+            border: 2px solid #ff00ff;
+            display: inline-block;
+        }
+        
+        .game-type {
+            color: #00ffff;
+            font-size: 0.5rem;
+            margin-top: 10px;
+        }
+        
+        .high-scores {
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .high-scores h2 {
+            color: #ffff00;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .scores-table {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #ffff00;
+            padding: 20px;
+        }
+        
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            color: #fff;
+            font-size: 0.6rem;
+            border-bottom: 1px dashed #333;
+        }
+        
+        .score-row:last-child {
+            border-bottom: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.5rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            .games-grid {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="stars"></div>
+    
+    <header>
+        <h1 class="logo">POWER PLATFORM<br>GAMES</h1>
+        <p class="tagline">&gt; PRESS START TO PLAY &lt;</p>
+        <p class="insert-coin">INSERT COIN</p>
+    </header>
+    
+    <main class="games-grid" id="gamesGrid"></main>
+    
+    <section class="high-scores">
+        <h2>HIGH SCORES</h2>
+        <div class="scores-table" id="scoresTable"></div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2026 POWER PLATFORM GAMES</p>
+        <p>CREDITS: 99</p>
+    </footer>
+    
+    <script>
+        const games = [
+            { name: 'Flappy App', type: 'Power App', category: 'Arcade', icon: '🐦' },
+            { name: '404 Not Found', type: 'Power App', category: 'Arcade', icon: '❓' },
+            { name: 'Canyon Escape', type: 'Power Automate', category: 'Simulation', icon: '🏜️' },
+            { name: 'Wordle', type: 'Power Automate', category: 'Puzzle', icon: '📝' },
+            { name: 'Game of Life', type: 'Power App', category: 'Simulation', icon: '🧬' },
+            { name: 'Snake', type: 'Power App', category: 'Arcade', icon: '🐍' },
+            { name: 'Bop It', type: 'Power App', category: 'Arcade', icon: '👊' }
+        ];
+        
+        const highScores = [
+            { rank: '1ST', name: 'AAA', score: '999999' },
+            { rank: '2ND', name: 'BBB', score: '888888' },
+            { rank: '3RD', name: 'CCC', score: '777777' },
+            { rank: '4TH', name: 'DDD', score: '666666' },
+            { rank: '5TH', name: 'EEE', score: '555555' }
+        ];
+        
+        const gamesGrid = document.getElementById('gamesGrid');
+        games.forEach((game, index) => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.innerHTML = `
+                <span class="game-icon">${game.icon}</span>
+                <h3 class="game-title">${game.name.toUpperCase()}</h3>
+                <span class="game-category">${game.category.toUpperCase()}</span>
+                <p class="game-type">${game.type}</p>
+            `;
+            card.addEventListener('click', () => {
+                card.style.animation = 'none';
+                card.offsetHeight;
+                card.style.animation = 'pulse 0.3s ease-out';
+            });
+            gamesGrid.appendChild(card);
+        });
+        
+        const scoresTable = document.getElementById('scoresTable');
+        highScores.forEach(score => {
+            const row = document.createElement('div');
+            row.className = 'score-row';
+            row.innerHTML = `
+                <span>${score.rank}</span>
+                <span>${score.name}</span>
+                <span>${score.score}</span>
+            `;
+            scoresTable.appendChild(row);
+        });
+    </script>
+</body>
+</html>

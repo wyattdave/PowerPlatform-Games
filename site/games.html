@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Games – Power Platform Games</title>
+    <link rel="stylesheet" href="css/retro.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="stars"></div>
+
+    <nav class="site-nav" id="siteNav"></nav>
+
+    <div class="page-title">
+        <h1>ALL GAMES</h1>
+        <p>&gt; BROWSE THE FULL ARCADE &lt;</p>
+    </div>
+
+    <!-- ── Filters ── -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <span class="filter-label">PLATFORM</span>
+            <div class="filter-buttons" id="platformFilter"></div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">CATEGORY</span>
+            <div class="filter-buttons" id="categoryFilter"></div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">INSTALL GRADING</span>
+            <div class="filter-buttons" id="gradingFilter"></div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">AUTHOR</span>
+            <div class="filter-buttons" id="authorFilter"></div>
+        </div>
+    </div>
+
+    <!-- ── Games Grid ── -->
+    <div class="games-grid" id="gamesGrid"></div>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+
+    <script src="js/site-engine.js"></script>
+    <script>
+        (async () => {
+            SiteEngine.renderNav(document.getElementById('siteNav'), 'games');
+            SiteEngine.renderFooter(document.getElementById('siteFooter'));
+
+            // ── Active filter state ──
+            const filters = {
+                type: 'All',
+                category: 'All',
+                grading: 'All',
+                author: 'All'
+            };
+
+            // ── Build filter buttons ──
+            function buildFilterButtons(containerId, values, filterKey) {
+                const container = document.getElementById(containerId);
+                const allValues = ['All', ...values];
+                allValues.forEach(val => {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-btn' + (val === 'All' ? ' active' : '');
+                    btn.textContent = val.toUpperCase();
+                    btn.addEventListener('click', () => {
+                        filters[filterKey] = val;
+                        container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        renderGames();
+                    });
+                    container.appendChild(btn);
+                });
+            }
+
+            // ── Load filter options from data ──
+            const platforms = ['Power Apps', 'Power Automate', 'Power BI', 'Power Pages', 'Copilot Studio'];
+            const categories = await SiteEngine.getDistinct('category');
+            const gradings = await SiteEngine.getDistinct('grading');
+            const authors = await SiteEngine.getDistinct('author');
+
+            buildFilterButtons('platformFilter', platforms, 'type');
+            buildFilterButtons('categoryFilter', categories, 'category');
+            buildFilterButtons('gradingFilter', gradings, 'grading');
+            buildFilterButtons('authorFilter', authors, 'author');
+
+            // ── Render ──
+            const grid = document.getElementById('gamesGrid');
+
+            async function renderGames() {
+                grid.innerHTML = '';
+                const games = await SiteEngine.filterGames(filters);
+
+                if (games.length === 0) {
+                    grid.innerHTML = '<div class="no-results">NO GAMES MATCH YOUR FILTERS.<br>TRY A DIFFERENT COMBINATION.</div>';
+                    return;
+                }
+
+                games.forEach((game, i) => {
+                    const card = SiteEngine.createGameCard(game);
+                    card.style.animationDelay = `${i * 0.1}s`;
+                    grid.appendChild(card);
+                });
+            }
+
+            await renderGames();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute – Power Platform Games</title>
+    <link rel="stylesheet" href="css/retro.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="stars"></div>
+
+    <nav class="site-nav" id="siteNav"></nav>
+
+    <div class="page-title">
+        <h1>CONTRIBUTE</h1>
+        <p>&gt; JOIN THE ARCADE &lt;</p>
+    </div>
+
+    <div class="content-section">
+
+        <!-- ── Welcome ── -->
+        <div class="content-block">
+            <h2>🕹️ WANT TO ADD YOUR GAME?</h2>
+            <p>
+                Power Platform Games is an open-source collection of games built with
+                Microsoft Power Platform technologies. We welcome contributions from
+                the community! Follow the steps below to add your own game.
+            </p>
+        </div>
+
+        <!-- ── Step 1: Fork & Branch ── -->
+        <div class="content-block">
+            <h2>STEP 1: FORK &amp; BRANCH</h2>
+            <ol>
+                <li>Go to the repository: <a href="https://github.com/wyattdave/PowerPlatform-Games" target="_blank">github.com/wyattdave/PowerPlatform-Games</a></li>
+                <li>Click the <strong>Fork</strong> button in the top-right corner to create your own copy.</li>
+                <li>Clone your fork to your local machine:</li>
+            </ol>
+            <pre><code>git clone https://github.com/YOUR-USERNAME/PowerPlatform-Games.git
+cd PowerPlatform-Games</code></pre>
+            <ol start="4">
+                <li>Create a new branch for your game:</li>
+            </ol>
+            <pre><code>git checkout -b add-my-game-name</code></pre>
+        </div>
+
+        <!-- ── Step 2: Add Your Game ── -->
+        <div class="content-block">
+            <h2>STEP 2: ADD YOUR GAME FILES</h2>
+            <p>Create a folder for your game under the correct platform directory:</p>
+            <pre><code>Power Apps/Your Game Name/
+Power Automate/Your Game Name/
+Power BI/Your Game Name/
+Power Pages/Your Game Name/
+Copilot Studio/Your Game Name/</code></pre>
+
+            <h3>REQUIRED FILES</h3>
+            <p>Your game folder must contain:</p>
+            <ul>
+                <li><strong>README.md</strong> — Game description and metadata (see template below)</li>
+                <li><strong>Screenshot image</strong> — A PNG/JPG screenshot of your game</li>
+                <li><strong>Solution .zip file</strong> — The importable solution package</li>
+                <li>Any additional files your game needs (text files, data files, etc.)</li>
+            </ul>
+        </div>
+
+        <!-- ── Step 3: README Template ── -->
+        <div class="content-block">
+            <h2>STEP 3: CREATE YOUR README.MD</h2>
+            <p>Use this exact template format so the site can parse your game automatically:</p>
+            <pre><code># Your Game Name
+
+## Description
+A short description of your game
+
+## Author
+YourGitHubUsername
+https://github.com/yourusername
+https://www.linkedin.com/in/yourprofile/
+
+## Related Links
+https://link-to-blog-or-video.com
+
+## Category
+Arcade | Puzzle | Simulation | Platform |
+Shooter | Sports | Strategy | Unclassified
+
+## Premium
+Yes | No
+
+## Depenedencies
+None
+(or list each dependency)
+
+## Install Guide
+Import solution
+(or describe the install steps)
+
+## Solution Name
+yourgame_1_0_0_1.zip
+
+## Screenshot
+your-screenshot.png
+
+## User Guide
+Describe how to play the game</code></pre>
+        </div>
+
+        <!-- ── Step 4: Update GAMELIST.md ── -->
+        <div class="content-block">
+            <h2>STEP 4: UPDATE GAMELIST.MD</h2>
+            <p>Add a new row to the <code>GAMELIST.md</code> file in the repository root.
+               Place your entry at the <strong>top</strong> of the table (newest first):</p>
+            <pre><code>| Your Game  | Power Apps | Arcade | No | Easy | YourName | Power Apps/Your Game |</code></pre>
+
+            <h3>COLUMN REFERENCE</h3>
+            <table class="retro-table">
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Name</td><td>Display name of your game</td></tr>
+                    <tr><td>Type</td><td>Power Apps, Power Automate, Power BI, Power Pages, or Copilot Studio</td></tr>
+                    <tr><td>Category</td><td>One of the categories from the Categories page</td></tr>
+                    <tr><td>Premium</td><td>Yes or No — does it need premium licenses?</td></tr>
+                    <tr><td>Grading</td><td>Easy, Easyish, Medium, or Effort</td></tr>
+                    <tr><td>Author</td><td>Your GitHub username</td></tr>
+                    <tr><td>Folder</td><td>Relative path to your game folder</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ── Step 5: Commit & PR ── -->
+        <div class="content-block">
+            <h2>STEP 5: COMMIT &amp; OPEN A PULL REQUEST</h2>
+            <ol>
+                <li>Stage and commit your changes:</li>
+            </ol>
+            <pre><code>git add .
+git commit -m "Add [Your Game Name] to Power Apps"
+git push origin add-my-game-name</code></pre>
+            <ol start="2">
+                <li>Go to your fork on GitHub.</li>
+                <li>Click <strong>"Compare &amp; pull request"</strong>.</li>
+                <li>Add a title and description explaining your game.</li>
+                <li>Submit the pull request to the <code>main</code> branch of  <a href="https://github.com/wyattdave/PowerPlatform-Games" target="_blank">wyattdave/PowerPlatform-Games</a>.</li>
+                <li>A maintainer will review and merge your contribution!</li>
+            </ol>
+        </div>
+
+        <!-- ── Guidelines ── -->
+        <div class="content-block">
+            <h2>📋 CONTRIBUTION GUIDELINES</h2>
+            <ul>
+                <li>Make sure your game works in the latest version of Power Platform.</li>
+                <li>Include a clear, concise description and user guide.</li>
+                <li>Add a screenshot so people know what your game looks like.</li>
+                <li>Test your solution import on a clean environment before submitting.</li>
+                <li>Follow the README.md template exactly — the site parses it automatically.</li>
+                <li>Use only the predefined categories from the <a href="categories.html">Categories page</a>.</li>
+                <li>Place your game in the most recent position (top) of GAMELIST.md.</li>
+                <li>Be respectful and constructive in all interactions.</li>
+            </ul>
+        </div>
+
+        <!-- ── FAQ ── -->
+        <div class="content-block">
+            <h2>❓ FAQ</h2>
+            <h3>DO I NEED TO KNOW GIT?</h3>
+            <p>Basic Git knowledge is helpful, but you can also upload files directly
+               through the GitHub web interface using the "Add file" button on your fork.</p>
+
+            <h3>WHAT IF MY GAME USES PREMIUM CONNECTORS?</h3>
+            <p>That is perfectly fine! Just set <code>Premium</code> to <code>Yes</code>
+               in both your README.md and GAMELIST.md, and list all dependencies.</p>
+
+            <h3>CAN I UPDATE MY GAME LATER?</h3>
+            <p>Yes! Just open a new pull request with the updated files. Update the
+               solution zip version and any changed documentation.</p>
+
+            <h3>HOW DOES THE SITE DETECT NEW GAMES?</h3>
+            <p>The site reads GAMELIST.md for game metadata and each game's README.md
+               for details. When your PR is merged and deployed, your game automatically
+               appears on the site.</p>
+        </div>
+
+    </div>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+
+    <script src="js/site-engine.js"></script>
+    <script>
+        SiteEngine.renderNav(document.getElementById('siteNav'), 'contribute');
+        SiteEngine.renderFooter(document.getElementById('siteFooter'));
+    </script>
+</body>
+</html>

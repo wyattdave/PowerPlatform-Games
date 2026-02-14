@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Platform Games</title>
+    <link rel="stylesheet" href="css/retro.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="stars"></div>
+
+    <nav class="site-nav" id="siteNav"></nav>
+
+    <header class="hero">
+        <h1 class="hero-title">POWER PLATFORM<br>GAMES</h1>
+        <p>Community Repository for Power Platform Games</p>
+        <p class="hero-subtitle">&gt; SELECT YOUR GAME &lt;</p>
+    </header>
+
+    <!-- ── Platform Filter Tabs ── -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <span class="filter-label">PLATFORM</span>
+            <div class="filter-buttons" id="platformFilter"></div>
+        </div>
+    </div>
+
+    <!-- ── Recent Games ── -->
+    <section>
+        <div class="filter-bar" style="padding-bottom:0">
+            <span class="filter-label" id="gridLabel">LATEST GAMES</span>
+        </div>
+        <div class="games-grid" id="gamesGrid"></div>
+    </section>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+
+    <script src="js/site-engine.js"></script>
+    <script>
+        (async () => {
+            // ── Nav & Footer ──
+            SiteEngine.renderNav(document.getElementById('siteNav'), 'home');
+            SiteEngine.renderFooter(document.getElementById('siteFooter'));
+
+            // ── Platform filter ──
+            const platforms = ['All', 'Power Apps', 'Power Automate', 'Power BI', 'Power Pages', 'Copilot Studio'];
+            const filterContainer = document.getElementById('platformFilter');
+            let currentPlatform = 'All';
+
+            platforms.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn' + (p === 'All' ? ' active' : '');
+                btn.textContent = p.toUpperCase();
+                btn.addEventListener('click', () => {
+                    currentPlatform = p;
+                    filterContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderGames();
+                });
+                filterContainer.appendChild(btn);
+            });
+
+            // ── Render games ──
+            const grid = document.getElementById('gamesGrid');
+            const gridLabel = document.getElementById('gridLabel');
+
+            async function renderGames() {
+                grid.innerHTML = '';
+                let games;
+
+                if (currentPlatform === 'All') {
+                    games = await SiteEngine.getRecentGames(6);
+                    gridLabel.textContent = 'LATEST GAMES';
+                } else {
+                    games = await SiteEngine.filterGames({ type: currentPlatform });
+                    gridLabel.textContent = currentPlatform.toUpperCase() + ' GAMES';
+                }
+
+                if (games.length === 0) {
+                    grid.innerHTML = '<div class="no-results">NO GAMES FOUND. CHECK BACK LATER!</div>';
+                    return;
+                }
+
+                games.forEach((game, i) => {
+                    const card = SiteEngine.createGameCard(game);
+                    card.style.animationDelay = `${i * 0.1}s`;
+                    grid.appendChild(card);
+                });
+            }
+
+            await renderGames();
+        })();
+    </script>
+</body>
+</html>

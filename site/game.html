@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game – Power Platform Games</title>
+    <link rel="stylesheet" href="css/retro.css">
+    <style>
+        .liability-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .liability-overlay.open { display: flex; }
+        .liability-dialog {
+            background: linear-gradient(135deg, var(--dark-surface), var(--dark-card));
+            border: 3px solid var(--neon-yellow);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 255, 0, 0.3);
+        }
+        .liability-dialog h2 {
+            font-size: 0.8rem;
+            color: var(--neon-yellow);
+            margin-bottom: 20px;
+        }
+        .liability-dialog p {
+            font-size: 0.5rem;
+            color: #ccc;
+            line-height: 2.2;
+            margin-bottom: 28px;
+        }
+        .liability-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        .liability-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .liability-accept {
+            background: var(--neon-green);
+            color: var(--dark-bg);
+        }
+        .liability-accept:hover {
+            box-shadow: 0 0 20px var(--neon-green);
+            transform: scale(1.05);
+        }
+        .liability-cancel {
+            background: transparent;
+            color: var(--neon-pink);
+            border: 2px solid var(--neon-pink);
+        }
+        .liability-cancel:hover {
+            background: rgba(255, 0, 255, 0.15);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+    </style>
+</head>
+<body>
+    <!-- Liability confirmation popup -->
+    <div class="liability-overlay" id="liabilityOverlay">
+        <div class="liability-dialog">
+            <h2>⚠ LIABILITY NOTICE</h2>
+            <p>This Repo and the maintainers are not liable for any impacts caused by solutions on this repo.</p>
+            <div class="liability-buttons">
+                <button class="liability-btn liability-accept" id="liabilityAccept">ACCEPT &amp; DOWNLOAD</button>
+                <button class="liability-btn liability-cancel" id="liabilityCancel">CANCEL</button>
+            </div>
+        </div>
+    </div>
+    <div class="scanlines"></div>
+    <div class="stars"></div>
+
+    <nav class="site-nav" id="siteNav"></nav>
+
+    <div class="game-detail" id="gameDetail">
+        <a href="games.html" class="back-link">&lt; BACK TO ALL GAMES</a>
+        <div id="gameContent">
+            <p style="text-align:center;color:var(--neon-yellow);font-size:0.7rem;padding:80px 0;">
+                LOADING GAME DATA...
+            </p>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+
+    <script src="js/site-engine.js"></script>
+    <script>
+        (async () => {
+            SiteEngine.renderNav(document.getElementById('siteNav'), '');
+            SiteEngine.renderFooter(document.getElementById('siteFooter'));
+
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get('game');
+            const container = document.getElementById('gameContent');
+
+            if (!slug) {
+                container.innerHTML = '<p class="no-results">NO GAME SPECIFIED. <a href="games.html">BROWSE ALL GAMES</a></p>';
+                return;
+            }
+
+            const game = await SiteEngine.getGameBySlug(slug);
+            if (!game) {
+                container.innerHTML = '<p class="no-results">GAME NOT FOUND. <a href="games.html">BROWSE ALL GAMES</a></p>';
+                return;
+            }
+
+            document.title = game.name + ' – Power Platform Games';
+            const readme = game.readme || {};
+
+            // ── Screenshot ──
+            const screenshotUrl = SiteEngine.getScreenshotUrl(game);
+            const screenshotHtml = screenshotUrl
+                ? `<img class="game-detail-img" src="${screenshotUrl}" alt="${game.name}" onerror="this.style.display='none'">`
+                : '';
+
+            // ── Download link ──
+            const downloadUrl = SiteEngine.getDownloadUrl(game);
+            const downloadHtml = downloadUrl
+                ? `<button class="download-btn" id="downloadTrigger">⬇ DOWNLOAD ${(readme.solution_name || 'SOLUTION').toUpperCase()}</button>`
+                : '';
+
+            // ── Liability popup wiring ──
+            const overlay = document.getElementById('liabilityOverlay');
+            const acceptBtn = document.getElementById('liabilityAccept');
+            const cancelBtn = document.getElementById('liabilityCancel');
+
+            function showLiabilityPopup() {
+                overlay.classList.add('open');
+            }
+
+            cancelBtn.addEventListener('click', () => {
+                overlay.classList.remove('open');
+            });
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('open');
+            });
+
+            acceptBtn.addEventListener('click', () => {
+                overlay.classList.remove('open');
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = '';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+
+            // ── Related links ──
+            let relatedHtml = '';
+            if (readme.related_links) {
+                const links = readme.related_links.split('\n').filter(l => l.trim());
+                relatedHtml = links.map(l => {
+                    // Handle markdown link format [text](url) or plain URL
+                    const mdLink = l.match(/\[([^\]]+)\]\(([^)]+)\)/);
+                    if (mdLink) {
+                        return `<li><a href="${mdLink[2]}" target="_blank">${mdLink[1]}</a></li>`;
+                    }
+                    const url = l.trim();
+                    if (url.startsWith('http')) {
+                        return `<li><a href="${url}" target="_blank">${url}</a></li>`;
+                    }
+                    return `<li>${url}</li>`;
+                }).join('');
+            }
+
+            // ── Dependencies ──
+            let depsHtml = '';
+            if (readme.depenedencies || readme.dependencies) {
+                const deps = (readme.depenedencies || readme.dependencies || '').trim();
+                if (deps.toLowerCase() !== 'none') {
+                    const lines = deps.split('\n').filter(l => l.trim());
+                    depsHtml = `
+                        <div class="game-detail-section">
+                            <h2>DEPENDENCIES</h2>
+                            <ul>${lines.map(l => `<li>${l.replace(/^-\s*/, '')}</li>`).join('')}</ul>
+                        </div>
+                    `;
+                }
+            }
+
+            // ── User Guide ──
+            let guideHtml = '';
+            if (readme.user_guide) {
+                const lines = readme.user_guide.split('\n');
+                const formatted = lines.map(l => {
+                    if (l.trim().startsWith('-')) {
+                        return `<li>${l.replace(/^-\s*/, '')}</li>`;
+                    }
+                    return `<p>${l}</p>`;
+                }).join('');
+                guideHtml = `
+                    <div class="game-detail-section">
+                        <h2>USER GUIDE</h2>
+                        ${formatted}
+                    </div>
+                `;
+            }
+
+            // ── Author ──
+            let authorHtml = '';
+            if (readme.author) {
+                const authorLines = readme.author.split('\n').filter(l => l.trim());
+                authorHtml = authorLines.map(l => {
+                    if (l.startsWith('http')) {
+                        return `<li><a href="${l.trim()}" target="_blank">${l.trim()}</a></li>`;
+                    }
+                    return `<li>${l.trim()}</li>`;
+                }).join('');
+            }
+
+            // ── Render ──
+            container.innerHTML = `
+                <div class="game-detail-header">
+                    <h1 class="hero-title" style="font-size:1.8rem;">${(readme.title || game.name).toUpperCase()}</h1>
+                    ${screenshotHtml}
+                    ${downloadHtml}
+                </div>
+
+                <div class="game-detail-section">
+                    <h2>DESCRIPTION</h2>
+                    <p>${readme.description || 'No description available.'}</p>
+                </div>
+
+                <div class="game-detail-section">
+                    <h2>GAME INFO</h2>
+                    <div class="game-detail-meta">
+                        <span class="meta-tag">${game.type.toUpperCase()}</span>
+                        <span class="meta-tag">${game.category.toUpperCase()}</span>
+                        <span class="meta-tag">${game.grading.toUpperCase()}</span>
+                        <span class="meta-tag ${game.premium === 'Yes' ? 'premium-yes' : ''}">${game.premium === 'Yes' ? 'PREMIUM' : 'FREE'}</span>
+                    </div>
+                </div>
+
+                ${depsHtml}
+
+                <div class="game-detail-section">
+                    <h2>INSTALL GUIDE</h2>
+                    <p>${readme.install_guide || 'See README for details.'}</p>
+                </div>
+
+                ${guideHtml}
+
+                ${relatedHtml ? `
+                <div class="game-detail-section">
+                    <h2>RELATED LINKS</h2>
+                    <ul>${relatedHtml}</ul>
+                </div>` : ''}
+
+                ${authorHtml ? `
+                <div class="game-detail-section">
+                    <h2>AUTHOR</h2>
+                    <ul>${authorHtml}</ul>
+                </div>` : ''}
+
+                <div class="game-detail-section">
+                    <h2>⚠ LIABILITY</h2>
+                    <p>This Repo and the maintainers are not liable for any impacts caused by solutions on this repo.</p>
+                </div>
+            `;
+
+            // Wire up download button to show liability popup
+            const dlBtn = document.getElementById('downloadTrigger');
+            if (dlBtn) {
+                dlBtn.addEventListener('click', showLiabilityPopup);
+            }
+        })();
+    </script>
+</body>
+</html>

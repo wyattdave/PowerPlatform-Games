@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories – Power Platform Games</title>
+    <link rel="stylesheet" href="css/retro.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="stars"></div>
+
+    <nav class="site-nav" id="siteNav"></nav>
+
+    <div class="page-title">
+        <h1>CATEGORIES</h1>
+        <p>&gt; GAME CLASSIFICATION DATABASE &lt;</p>
+    </div>
+
+    <div class="content-section" id="categoriesContent">
+        <p style="text-align:center;color:var(--neon-yellow);font-size:0.7rem;padding:40px 0;">LOADING DATA...</p>
+    </div>
+
+    <footer class="site-footer" id="siteFooter"></footer>
+
+    <script src="js/site-engine.js"></script>
+    <script>
+        (async () => {
+            SiteEngine.renderNav(document.getElementById('siteNav'), 'categories');
+            SiteEngine.renderFooter(document.getElementById('siteFooter'));
+
+            const container = document.getElementById('categoriesContent');
+            const categories = await SiteEngine.loadCategories();
+
+            if (!categories || Object.keys(categories).length === 0) {
+                container.innerHTML = '<p class="no-results">NO CATEGORY DATA FOUND.</p>';
+                return;
+            }
+
+            let html = '';
+
+            // ── Games Categories ──
+            if (categories['Games Categories']) {
+                const cat = categories['Games Categories'];
+                html += `
+                    <div class="content-block">
+                        <h2>🎮 GAMES CATEGORIES</h2>
+                        <p>Each game is classified into one of the following categories based on its gameplay style.</p>
+                        <table class="retro-table">
+                            <thead>
+                                <tr>${cat.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                            </thead>
+                            <tbody>
+                                ${cat.rows.map(r => `<tr>${r.map(c => `<td>${c || '—'}</td>`).join('')}</tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // ── Install Grading ──
+            if (categories['Install Grading']) {
+                const ig = categories['Install Grading'];
+                html += `
+                    <div class="content-block">
+                        <h2>⚡ INSTALL GRADING</h2>
+                        <p>Games are graded based on how difficult they are to set up. Check the grading before downloading.</p>
+                        <table class="retro-table">
+                            <thead>
+                                <tr>${ig.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                            </thead>
+                            <tbody>
+                                ${ig.rows.map(r => `<tr>${r.map(c => `<td>${c || '—'}</td>`).join('')}</tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // ── Platform Technologies ──
+            if (categories['Platform Technologies']) {
+                const pt = categories['Platform Technologies'];
+                html += `
+                    <div class="content-block">
+                        <h2>🛠️ PLATFORM TECHNOLOGIES</h2>
+                        <p>Games are built using Microsoft Power Platform technologies.</p>
+                        <table class="retro-table">
+                            <thead>
+                                <tr>${pt.headers.map(h => `<th>${h}</th>`).join('')}</tr>
+                            </thead>
+                            <tbody>
+                                ${pt.rows.map(r => `<tr>${r.map(c => `<td>${c || '—'}</td>`).join('')}</tr>`).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // ── Games by Category (dynamic) ──
+            const games = await SiteEngine.loadGames();
+            const catGroups = {};
+            games.forEach(g => {
+                if (!catGroups[g.category]) catGroups[g.category] = [];
+                catGroups[g.category].push(g);
+            });
+
+            html += `<div class="content-block">
+                <h2>📊 GAMES BY CATEGORY</h2>
+                <p>A breakdown of all games currently in the arcade, grouped by category.</p>
+            `;
+
+            for (const [cat, catGames] of Object.entries(catGroups)) {
+                html += `
+                    <h3>▸ ${cat.toUpperCase()} (${catGames.length})</h3>
+                    <table class="retro-table">
+                        <thead><tr><th>Game</th><th>Platform</th><th>Grading</th><th>Premium</th></tr></thead>
+                        <tbody>
+                            ${catGames.map(g => `
+                                <tr>
+                                    <td><a href="game.html?game=${encodeURIComponent(g.slug)}">${g.name}</a></td>
+                                    <td>${g.type}</td>
+                                    <td>${g.grading}</td>
+                                    <td>${g.premium}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            html += '</div>';
+
+            container.innerHTML = html;
+        })();
+    </script>
+</body>
+</html>

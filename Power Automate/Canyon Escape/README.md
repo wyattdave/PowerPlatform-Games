@@ -39,7 +39,7 @@ Add files to root of your onedrive
 TextBasedGame.zip
 
 ## Screenshot
-Canyone Escape.png
+Canyon Escape.png
 
 ## User Guide
 Send email to the outlook account with subject 'CanyonEscape' (case sensitive). You will recieve reply email, reply back with your next command.

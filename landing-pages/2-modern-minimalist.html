@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power Platform Games - Modern Minimalist</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 48px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--dark);
+        }
+        
+        .nav-logo span {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 120px 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--dark);
+            color: var(--dark);
+        }
+        
+        .btn-outline:hover {
+            background: var(--dark);
+            color: white;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            padding: 60px 24px;
+            background: white;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        
+        .section-title {
+            text-align: center;
+            padding: 80px 24px 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            padding: 0 48px 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
+        }
+        
+        .game-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .game-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .game-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .game-type {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        .game-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
+        .game-tags {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .tag {
+            padding: 6px 12px;
+            background: var(--light);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .features {
+            background: var(--dark);
+            color: white;
+            padding: 100px 48px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 48px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .feature {
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        
+        .feature p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 48px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 24px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 32px;
+            }
+            .games-grid {
+                padding: 0 24px 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-logo">Power<span>Platform</span>Games</div>
+        <ul class="nav-links">
+            <li><a href="#games">Games</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <button class="btn btn-primary">Get Started</button>
+    </nav>
+    
+    <section class="hero">
+        <h1>Gaming meets Low-Code Development</h1>
+        <p>Discover a collection of games built entirely with Microsoft Power Platform. Learn, play, and get inspired.</p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary">Explore Games</button>
+            <button class="btn btn-outline">Learn More</button>
+        </div>
+    </section>
+    
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-number" id="gameCount">7</div>
+            <div class="stat-label">Games Available</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">4</div>
+            <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Technologies</div>
+        </div>
+    </section>
+    
+    <section id="games">
+        <div class="section-title">
+            <h2>Featured Games</h2>
+            <p>Each game showcases the creative possibilities of Power Platform</p>
+        </div>
+        <div class="games-grid" id="gamesGrid"></div>
+    </section>
+    
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Low-Code Magic</h3>
+                <p>Built with Power Apps, Power Automate, and more - no traditional coding required.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎓</div>
+                <h3>Learn By Playing</h3>
+                <p>Understand Power Platform capabilities through interactive gaming experiences.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔓</div>
+                <h3>Open Source</h3>
+                <p>All games are open source. Download, modify, and create your own versions.</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <p>&copy; 2026 Power Platform Games. Made with ❤️ and low-code.</p>
+    </footer>
+    
+    <script>
+        const games = [
+            { name: 'Flappy App', type: 'Power App', category: 'Arcade', icon: '🐦', desc: 'Navigate through obstacles in this classic arcade remake.' },
+            { name: '404 Not Found', type: 'Power App', category: 'Arcade', icon: '❓', desc: 'A unique arcade experience with a technical twist.' },
+            { name: 'Canyon Escape', type: 'Power Automate', category: 'Simulation', icon: '🏜️', desc: 'An adventure simulation powered by automated workflows.' },
+            { name: 'Wordle', type: 'Power Automate', category: 'Puzzle', icon: '📝', desc: 'The popular word puzzle game, Power Platform style.' },
+            { name: 'Game of Life', type: 'Power App', category: 'Simulation', icon: '🧬', desc: 'Conways cellular automaton brought to life.' },
+            { name: 'Snake', type: 'Power App', category: 'Arcade', icon: '🐍', desc: 'The timeless snake game with modern polish.' },
+            { name: 'Bop It', type: 'Power App', category: 'Arcade', icon: '👊', desc: 'Test your reflexes in this fast-paced action game.' }
+        ];
+        
+        const gamesGrid = document.getElementById('gamesGrid');
+        games.forEach((game, index) => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <div class="game-header">
+                    <div class="game-icon">${game.icon}</div>
+                    <div>
+                        <div class="game-title">${game.name}</div>
+                        <div class="game-type">${game.type}</div>
+                    </div>
+                </div>
+                <p class="game-description">${game.desc}</p>
+                <div class="game-tags">
+                    <span class="tag">${game.category}</span>
+                    <span class="tag">${game.type.split(' ')[1]}</span>
+                </div>
+            `;
+            gamesGrid.appendChild(card);
+        });
+        
+        // Animate numbers on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumbers();
+                }
+            });
+        });
+        
+        function animateNumbers() {
+            document.querySelectorAll('.stat-number').forEach(el => {
+                const target = parseInt(el.textContent);
+                let current = 0;
+                const increment = target / 30;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        el.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.floor(current);
+                    }
+                }, 50);
+            });
+        }
+    </script>
+</body>
+</html>

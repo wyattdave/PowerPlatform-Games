@@ -9,7 +9,7 @@ WyattDave
 [https://www.linkedin.com/in/wyattdave/](https://www.linkedin.com/in/wyattdave/)
 
 ## Related Links
-[Blog, article, youtube, site url](https://dev.to/wyattdave/bop-it-creating-a-game-in-power-apps-2pfo)]
+[Blog, article, youtube, site url](https://dev.to/wyattdave/bop-it-creating-a-game-in-power-apps-2pfo)
 
 ## Category
 Unclassified
@@ -23,10 +23,11 @@ None
 ## Install Guide
 Import Solution
 
+## Solution Name
 Bopit_1_0_0_1.zip
 
 ## Screenshot
 bop it.png
 
 ## User Guide
-Listen to the app annouance the next action, if you do not complete the action in time game over. The time to complete each action decreases as your score goes up.
+Listen to the app announce the next action, if you do not complete the action in time game over. The time to complete each action decreases as your score goes up.
